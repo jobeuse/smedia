@@ -1,0 +1,55 @@
+{% extends 'landing/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="container"> 
+        <div class="container">
+            <div class="row justify-content-left mt-3">
+                <div class="col-xs-12 col-sm-12 col-md-12 border-bottom">
+                    <a class="btn btn-light" href="{% url 'post-list' %}">Back to feed</a>
+                </div>
+            </div> 
+        {% if post  %}
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-ms-12 border-bottom">
+                <p><strong>{{post.author}}</strong> {{post.created_on}}
+                    {% if request.user == post.author %}
+                        {% comment %} <div class="flex flex-row justify-content-between"> {% endcomment %}
+                            <a href="{% url 'post-edit' post.pk %}" class="text-dark ml-3"><i class="far fa-edit"></i></a>
+                            <a href="{% url 'post-delete' post.pk %}" class="text-danger"><i class="fas fa-trash"></i></a>
+                        {% comment %} </div> {% endcomment %}
+                    {% endif %}
+                </p>
+                <p>{{ post.body }}</p>
+            </div>
+        </div>
+        <div class="row justify-content-center mt-4">
+            <div class="col-xs-12 col-sm-12 col-md-5 border-bottom">
+               <form method="post">
+                {% csrf_token %}
+                {{ form |crispy }}
+                <div class="d-grid gap-2">
+                    <button class="btn btn-dark mt-3">
+                        Share
+                    </button>
+                </div>
+               </form>
+            </div>
+        </div>
+        {% for comment in comments %}
+        <div class="row justify-content-center mt-4 ">
+            <div class="col-xs-12 col-sm-12 col-md-5 border-bottom">
+                <p><strong>{{comment.author}}</strong> {{comment.created_on}}
+                    {% if request.user == post.author %}
+                        {% comment %} <div class="flex flex-row justify-content-between"> {% endcomment %}
+                            <a href="{% url 'post-edit' post.pk %}" class="text-dark ml-3"><i class="far fa-edit"></i></a>
+                            <a href="{% url 'comment-delete' post.pk comment.pk %}" class="text-danger"><i class="fas fa-trash"></i></a>
+                        {% comment %} </div> {% endcomment %}
+                    {% endif %}
+                </p>
+                <p>{{ comment.comment }}</p>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+{% endblock content %}
