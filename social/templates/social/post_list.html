@@ -1,33 +1,84 @@
 {% extends 'landing/base.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-xs-12 col-sm-12 col-md-5 border-bottom">
-                <h3>Add a Post</h3>
-            </div>
-        </div>
-        <div class="row justify-content-center mb-4">
-            <div class="col-xs-12 col-sm-12 col-md-5 border-bottom">
-               <form method="post">
-                {% csrf_token %}
-                {{ form |crispy }}
-                <div class="d-grid gap-2">
-                    <button class="btn btn-dark mt-3">
-                        Share
-                    </button>
+    <div class="container-fluid">  
+        <div class="row justify-content-center"> 
+            <div class="col-lg-7 col-md-7 col-ms-12 mt-5"> 
+                <div class="row justify-content-center">
+                    <div class="col-xs-12 col-sm-12 col-md-5 border-bottom">
+                        <h3>Add a Post</h3>
+                    </div>
                 </div>
-               </form>
+                <div class="row justify-content-center mb-4">
+                    <div class="col-xs-12 col-sm-12 col-md-12 border-bottom">
+                       <form method="post">
+                        {% csrf_token %}
+                        {{ form |crispy }}
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-dark mt-3">
+                                Share
+                            </button>
+                        </div>
+                       </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-7 col-md-7 col-ms-12 mt-5">
+                {% for post in post_list  %}
+                <div class="row shadow-sm p-2 rounded mb-4">
+                    <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+                        <div class="d-flex flex-row">
+                            <div class="">
+                                #PC
+                            </div>
+                            <div class="flex-grow-1">
+                                <div class="d-flex flex-column">
+                                    <div class="">
+                                        {{post.author}}
+                                    </div>
+                                    <div class="d-flex flex-row text-muted">
+                                        <h6>Kigali Rwanda
+                                        <span>, {{post.created_on}}</span></h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <span  class="font-weight-bold">Menu</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12 d position-relative">
+                        <p>{{ post.body }}</p>
+                        <a class="stretched-link" href="{% url 'post-view' post.pk %}"></a>
+                        <div class="d-flex flex-row">
+                            <div class="flex-grow-1">
+                                <strong class="font-weight-bold">12</strong>
+                            </div>
+                            <div class="">
+                                <div class="d-flex flex-row">
+                                    <div class="">
+                                        <strong class="font-weight-bold">Likes</strong>
+                                    </div>
+                                    <div class="m-2 mt-0 ml-0"> 
+                                        <strong class="font-weight-bold"> Comments </strong>
+                                    </div>
+                                    <div>
+                                        <strong class="font-weight-bold"> Share </strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+                        <hr>
+                    </div>
+                </div> 
+                 {% endfor %}
+
+              
             </div>
         </div>
-        {% for post in post_list  %}
-        <div class="row justify-content-center">
-            <div class="col-md-6 col-ms-12 border-bottom position-relative">
-                <p><strong>{{post.author}}</strong> {{post.created_on}}</p>
-                <p>{{ post.body }}</p>
-                <a class="stretched-link" href="{% url 'post-view' post.pk %}"></a>
-            </div>
-        </div>
-        {% endfor %}
+        
     </div>
 {% endblock content %}

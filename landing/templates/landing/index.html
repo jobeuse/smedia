@@ -7,13 +7,16 @@
 		<div class="col-md-10 col-sm-12 text-center">
 			<h1 class="display-2">Connect with your friends			</h1>
 			<p class="mt-3 lead">Follow people
-			 who interest you, Stay up to date on their latest news and join conversation with your frinds
+			 who interest you, Stay up to date<br> on their latest news and join conversation with your frinds
 
 			</p>
-			<div class="d-flex justify-content-center mt-5">
-				<a href="{% url 'account_login'%}" class="btn btn-sm btn-light mr-2">Login</a>
-
-				<a href="{% url 'account_signup'%}" class="btn btn-sm btn-dark mr-2">Register</a>
+			<div class="d-flex justify-content-center mt-3">
+				{% if user.is_authenticated %}
+					<h1  class="display-6">Welcome back, <a href="{% url 'post-list' %}" class="bg-dark text-decoration-none text-white">{{ request.user }} </a></h1>
+				{% else %}  
+					<a href="{% url 'account_login'%}" class="btn btn-sm btn-light mr-2">Login</a>
+					<a href="{% url 'account_signup'%}" class="btn btn-sm btn-dark mr-2">Register</a>
+				{% endif %}
 			</div>
 		</div>
 	</div>
